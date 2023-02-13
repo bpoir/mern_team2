@@ -1,6 +1,6 @@
 {
   "name": "capstone-starter-be",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "private": true,
   "scripts": {
     "start": "node -r dotenv-expand/config ./bin/www",
@@ -9,6 +9,18 @@
     "test": "npm run unittest && npm run integtest",
     "watch": "nodemon"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bpoir/mern_team2_be"
+  },
+  "keywords": [
+    "express",
+    "api",
+    "server",
+    "node"
+  ],
+  "author": "team2",
+  "license": "MIT",
   "dependencies": {
     "bcrypt": "^5.0.1",
     "chai-http": "^4.3.0",
