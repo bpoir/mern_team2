@@ -15,7 +15,7 @@ app.use(logger(process.env.LOG_FORMAT))
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(auth.middleware)
+app.use(auth.middleware);
 app.use(swaggerDocsRouter);
 app.use(cors({
   origin: '*'
