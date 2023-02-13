@@ -1,0 +1,253 @@
+openapi: 3.0.1
+info:
+  title: Capstone BE Starter
+  version: 1.0.0
+servers:
+  - url: http://localhost:8081
+    description: localhost
+components:
+  schemas:
+    User:
+      additionalProperties: false
+      type: object
+      properties:
+        firstName:
+          type: string
+          minLength: 2
+        lastName:
+          type: string
+          minLength: 2
+        email:
+          type: string
+        password:
+          type: string
+      required:
+        - firstName
+        - lastName
+        - email
+        - password
+    UserResponse:
+      additionalProperties: false
+      type: object
+      properties:
+        _id:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+    Login:
+      additionalProperties: false
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+      required:
+        - email
+        - password
+    LoginSuccess:
+      additionalProperties: false
+      type: object
+      properties:
+        token:
+          type: string
+        email:
+          type: string
+        statusCode:
+          type: string
+    OperationalError:
+      allOf:
+        - type: object
+          properties:
+            message:
+              type: string
+          required:
+            - message
+        - $ref: '#/components/schemas/ErrorStatusCode'
+    ErrorStatusCode:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          minimum: 400
+          maximum: 599
+      required:
+        - statusCode
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  parameters:
+    username:
+      in: path
+      name: username
+      required: true
+      schema:
+        $ref: '#/components/schemas/User'
+      description: The username of the user
+  headers:
+    WWW-Authenticate:
+      description: Includes the URI location to receive a bearer token
+      required: true
+      schema:
+        type: string
+        enum:
+          - >-
+            Bearer realm="POST your username and password to /auth/login to
+            receive a token"
+  responses:
+    '400':
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/OperationalError'
+    '401':
+      description: Unauthorized
+      headers:
+        WWW-Authenticate:
+          $ref: '#/components/headers/WWW-Authenticate'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/OperationalError'
+    '404':
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/OperationalError'
+paths:
+  /auth/login:
+    post:
+      summary: Login user
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Login'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginSuccess'
+        '400':
+          $ref: '#/components/responses/400'
+  /auth/logout:
+    get:
+      summary: Logout a user
+      tags:
+        - Auth
+      security:
+        - bearerAuth: []
+      responses:
+        '204':
+          description: No Content
+        '401':
+          $ref: '#/components/responses/401'
+  /api/users:
+    get:
+      summary: Get a list of users
+      tags:
+        - Users
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: firstName
+          in: query
+          description: Get users with a specific first name (fuzzy, case insensitve)
+          required: false
+          schema:
+            firstName:
+            type: string
+        - name: lastName
+          in: query
+          description: Get users with a specific last name (fuzzy, case insensitve)
+          required: false
+          schema:
+            firstName:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - type: object
+                    properties:
+                      users:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/UserResponse'
+        '400':
+          $ref: '#/components/responses/400'
+    post:
+      summary: Create a new user
+      operationId: createUser
+      x-controller: users
+      tags:
+        - Users
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - type: object
+                    properties:
+                      user:
+                        $ref: '#/components/schemas/UserResponse'
+        '400':
+          $ref: '#/components/responses/400'
+  /api/users/{email}:
+    put:
+      summary: Update user
+      tags:
+        - Users
+      parameters:
+        - in: path
+          name: email
+          required: true
+          schema:
+            type: string
+            description: The email address of the user
+      security:
+        - bearerAuth: []
+      requestBody:
+        description: The user updates
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '404':
+          $ref: '#/components/responses/404'

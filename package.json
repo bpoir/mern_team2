@@ -1,0 +1,40 @@
+{
+  "name": "capstone-starter-be",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node -r dotenv-expand/config ./bin/www",
+    "unittest": "mocha -r dotenv-expand/config ./unittests/**/*.js",
+    "integtest": "mocha -r dotenv-expand/config ./integtests/**/*.js --file ./integtests/global.setup.js --file ./integtests/global.teardown.js",
+    "test": "npm run unittest && npm run integtest",
+    "watch": "nodemon"
+  },
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "chai-http": "^4.3.0",
+    "cookie-parser": "~1.4.4",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "dotenv-expand": "^10.0.0",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.0",
+    "mongoose": "^6.0.8",
+    "morgan": "~1.9.1",
+    "mysql2": "^2.3.3",
+    "passport": "^0.6.0",
+    "passport-jwt": "^4.0.0",
+    "swagger-ui-express": "^4.1.6",
+    "yamljs": "^0.3.0"
+  },
+  "devDependencies": {
+    "chai": "^4.3.7",
+    "debug": "~2.6.9",
+    "eslint": "^8.31.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.26.0",
+    "mocha": "^10.2.0",
+    "nodemon": "^2.0.14",
+    "sinon": "^15.0.1",
+    "supertest": "^6.3.3"
+  }
+}
