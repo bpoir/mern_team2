@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
   title: Capstone BE Starter
-  version: 1.0.0
+  version: 1.0.1
 servers:
   - url: http://localhost:8081
     description: localhost
@@ -233,6 +233,40 @@ paths:
         - bearerAuth: []
       requestBody:
         description: The user updates
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '404':
+          $ref: '#/components/responses/404'
+  
+    delete:
+      summary: Delete user
+      tags:
+        - Users
+      parameters:
+        - in: path
+          name: email
+          required: true
+          schema:
+            type: string
+            description: The email address of the user
+      security:
+        - bearerAuth: []
+      requestBody:
+        description: The user deletes
         required: true
         content:
           application/json:
