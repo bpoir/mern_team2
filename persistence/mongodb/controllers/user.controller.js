@@ -161,7 +161,7 @@ const userController = {
                 res.status(404).send({message: "User not found", statusCode: res.statusCode});
             }
 
-            //respond with updated user <-- this needs to be improved
+            //respond with updated user 
             res.status(200).send({message: "user deleted", statusCode: res.statusCode});
             
         } catch (error) {
