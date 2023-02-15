@@ -134,8 +134,45 @@ const userController = {
             })
 
         }
+    },
+    deleteUser: async function(req, res){
+
+        try {
+
+            //get the user email from the request params
+             const email = req.params.email;
+
+            //store user data sent through the request
+             const userData = req.body;
+
+            //try to find our user by the email provided in the request params
+            // const user = await User.findOne({email: email})
+             let foundUserDelete = await User.findOne({email: email})
+            //delete the user if we found a match and save or return a 404
+            if(email){
+                Object.assign(foundUserDelete, userData)
+                await foundUserDelete.delete()
+                
+                //Object.assign(user, userdata)
+                //user.deleteOne()
+                //await user.deleteOne()
+                
+            }else{
+                res.status(404).send({message: "User not found", statusCode: res.statusCode});
+            }
+
+            //respond with updated user 
+            res.status(200).send({message: "user deleted", statusCode: res.statusCode});
+            
+        } catch (error) {
+            console.log("failed to update user: " + error)
+            res.status(400).json({
+                message: error.message,
+                statusCode: res.statusCode
+            })
+        }
+
     }
-    
 
 }
 

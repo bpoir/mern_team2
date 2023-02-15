@@ -18,6 +18,9 @@ const userController = {
     },
     //method to get all users using async/await syntax
     getUser: async function(req, res){
+    },
+    //method to delete a user
+    deleteUser: async function(req, res){
     }
 }
 
