@@ -363,7 +363,7 @@ paths:
                 allOf:
                   - type: object
                     properties:
-                      users:
+                      products:
                         type: array
                         items:
                           $ref: '#/components/schemas/ProductResponse'
@@ -390,7 +390,7 @@ paths:
                 allOf:
                   - type: object
                     properties:
-                      user:
+                      product:
                         $ref: '#/components/schemas/ProductResponse'
         '400':
           $ref: '#/components/responses/400'
