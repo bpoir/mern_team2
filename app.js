@@ -27,7 +27,7 @@ app.use('/auth', authRouter);
 
 //tell our app to use our user routes and prefix them with /api
 app.use('/api/users', usersRouter);
-app.use('/api/product', productRouter);
+app.use('/api/products', productRouter);
 
 //custom error handling
 app.use((err, req, res, next) => {
