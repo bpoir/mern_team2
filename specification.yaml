@@ -3,7 +3,7 @@ info:
   title: Capstone BE Starter
   version: 1.0.1
 servers:
-  - url: http://localhost:8081
+  - url: http://localhost:8082
     description: localhost
 components:
   schemas:

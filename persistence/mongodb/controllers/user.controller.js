@@ -140,27 +140,29 @@ const userController = {
         try {
 
             //get the user email from the request params
-            const email = req.params.email;
+             const email = req.params.email;
 
             //store user data sent through the request
-             //const userData = req.body;
+             const userData = req.body;
 
             //try to find our user by the email provided in the request params
-            const user = await User.findOne({email: email})
-
+            // const user = await User.findOne({email: email})
+             let foundUserDelete = await User.findOne({email: email})
             //delete the user if we found a match and save or return a 404
-            if(user){
-                res.json(user)
+            if(email){
+                Object.assign(foundUserDelete, userData)
+                await foundUserDelete.delete()
                 
-                //Object.assign(user, email)
+                //Object.assign(user, userdata)
                 //user.deleteOne()
-                //await user.save()
+                //await user.deleteOne()
+                
             }else{
                 res.status(404).send({message: "User not found", statusCode: res.statusCode});
             }
 
-            //respond with updated user
-            //res.json(await User.findById(user._id))
+            //respond with updated user <-- this needs to be improved
+            res.json()
             
         } catch (error) {
             console.log("failed to update user: " + error)

@@ -22,7 +22,7 @@ router.get("/:email", validateJwtMiddleware, userController.getUser)
 router.put("/:email", validateJwtMiddleware, userController.updateUser)
 
 //delete a user
-router.delete("/", userController.deleteUser)
+router.delete("/:email", userController.deleteUser)
 
 
 module.exports = router;
