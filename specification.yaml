@@ -38,6 +38,43 @@ components:
           type: string
         email:
           type: string
+#product/product response schema
+    Product:
+      additionalProperties: false
+      type: object
+      properties:
+        productName:
+          type: string
+          minLength: 2
+        productType:
+          type: string
+          minLength: 2
+        productAllergens:
+          type: string
+          minLength: 2
+        productPrice:
+          type: number
+      required:
+        - productName
+        - productType
+        - productAllergens
+        - productPrice
+    ProductResponse:
+      additionalProperties: false
+      type: object
+      properties:
+        _id:
+          type: string
+        productName:
+          type: string
+        productType:
+          type: string
+        productAllergens:
+          type: string
+        productPrice:
+          type: number
+#end product/product response schema
+
     Login:
       additionalProperties: false
       type: object
@@ -279,6 +316,146 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UserResponse'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '404':
+          $ref: '#/components/responses/404'
+
+
+# add products:
+  /api/products:
+    get:
+      summary: Get a list of products
+      tags:
+        - Products
+#      security:
+#        - bearerAuth: []
+      parameters:
+        - name: productName
+          in: query
+          description: Get products with by product name (fuzzy, case insensitve)
+          required: false
+          schema:
+            productName:
+            type: string
+        - name: productType
+          in: query
+          description: Get products with by product type (fuzzy, case insensitve)
+          required: false
+          schema:
+            productType:
+            type: string
+        - name: productAllergens
+          in: query
+          description: Get products with by allergen (fuzzy, case insensitve)
+          required: false
+          schema:
+            productType:
+            type: string            
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - type: object
+                    properties:
+                      products:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/ProductResponse'
+        '400':
+          $ref: '#/components/responses/400'
+    post:
+      summary: Create a new product
+      operationId: createProduct
+      x-controller: products
+      tags:
+        - Products
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - type: object
+                    properties:
+                      product:
+                        $ref: '#/components/schemas/ProductResponse'
+        '400':
+          $ref: '#/components/responses/400'
+  /api/products/{productName}:
+    put:
+      summary: Update product
+      tags:
+        - Products
+      parameters:
+        - in: path
+          name: productName
+          required: true
+          schema:
+            type: string
+            description: The name of the product
+#      security:
+#        - bearerAuth: []
+      requestBody:
+        description: The product updates
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductResponse'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '404':
+          $ref: '#/components/responses/404'
+  
+    delete:
+      summary: Delete product
+      tags:
+        - Products
+      parameters:
+        - in: path
+          name: productName
+          required: true
+          schema:
+            type: string
+            description: The name of the product
+#      security:
+#        - bearerAuth: []
+      requestBody:
+        description: The product deletes
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductResponse'
         '400':
           $ref: '#/components/responses/400'
         '401':

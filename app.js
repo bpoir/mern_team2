@@ -1,17 +1,18 @@
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
-const cors = require('cors')
+const cors = require('cors');
 
 const auth = require("./auth");
 
 const indexRouter = require('./routes/index');
 const authRouter = require('./routes/auth.routes');
 const usersRouter = require('./routes/user.routes');
-const swaggerDocsRouter = require("./routes/swagger.routes");
+const swaggerDocsRouter = require('./routes/swagger.routes');
+const productRouter = require('./routes/product.routes');
 
 const app = express();
-app.use(logger(process.env.LOG_FORMAT))
+app.use(logger(process.env.LOG_FORMAT));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -19,13 +20,14 @@ app.use(auth.middleware);
 app.use(swaggerDocsRouter);
 app.use(cors({
   origin: '*'
-}))
+}));
 
 app.use('/', indexRouter);
 app.use('/auth', authRouter);
 
 //tell our app to use our user routes and prefix them with /api
 app.use('/api/users', usersRouter);
+app.use('/api/products', productRouter);
 
 //custom error handling
 app.use((err, req, res, next) => {

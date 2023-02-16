@@ -165,7 +165,7 @@ const userController = {
             res.status(200).send({message: "user deleted", statusCode: res.statusCode});
             
         } catch (error) {
-            console.log("failed to update user: " + error)
+            console.log("failed to delete user: " + error)
             res.status(400).json({
                 message: error.message,
                 statusCode: res.statusCode
