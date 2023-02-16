@@ -12,16 +12,16 @@ const productController = require(
 router.post("/", productController.createProduct)
 
 //get route to return all users (requires auth)
-router.get("/", productController.getProduct)
+router.get("/", productController.getProducts)
 
 //get route to return a specific users (requires auth)
-router.get("/:name", productController.getProduct)
+router.get("/:productName", productController.getProduct)
 
 //put route to update a user (requires auth)
-router.put("/:name", productController.updateProduct)
+router.put("/:productName", productController.updateProduct)
 
 //delete a user
-router.delete("/:name", productController.deleteProduct)
+router.delete("/:productName", productController.deleteProduct)
 
 
 module.exports = router;

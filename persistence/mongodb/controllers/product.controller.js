@@ -81,7 +81,7 @@ const productController = {
             const newProductData = req.body;
 
             //try to find our user by the email provided in the request params
-            const product = await Product.findOne({productName: name})
+            const product = await Product.findOne({name: name})
 
             //update the user if we found a match and save or return a 404
             if(product){
@@ -110,7 +110,7 @@ const productController = {
         try {
 
             //get the email address of the user from the url parameters
-            const productName = req.params.productName;
+            const name = req.params.productName;
             
             //use our model to find the user that match a query.
             //{email: some@email.com} is the current query which really mean find the user with that email

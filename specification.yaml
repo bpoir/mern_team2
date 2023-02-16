@@ -394,14 +394,14 @@ paths:
                         $ref: '#/components/schemas/ProductResponse'
         '400':
           $ref: '#/components/responses/400'
-
+  /api/products/{productName}:
     put:
       summary: Update product
       tags:
         - Products
       parameters:
         - in: path
-          name: name
+          name: productName
           required: true
           schema:
             type: string
@@ -435,7 +435,7 @@ paths:
         - Products
       parameters:
         - in: path
-          name: name
+          name: productName
           required: true
           schema:
             type: string
