@@ -81,7 +81,7 @@ const productController = {
             const newProductData = req.body;
 
             //try to find our user by the email provided in the request params
-            const product = await Product.findOne({name: name})
+            const product = await Product.findOne({productName: name})
 
             //update the user if we found a match and save or return a 404
             if(product){
