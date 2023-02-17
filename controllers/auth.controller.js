@@ -45,8 +45,15 @@ const authController = {
             res.send("Something went wrong: " + error)
         }
     },
-    logout: async function(req, res){
-      await req.logout();
+    logout: async function(req, res, next){
+      await req.logout(function(err){ 
+        if(err) {
+          return next(err);
+        }
+        
+    }
+        
+      );
       res.status(204).send()
     }
     
