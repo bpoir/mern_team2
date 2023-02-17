@@ -16,11 +16,11 @@ const productSchema = new mongoose.Schema({
         required: true,
         minlength: 2
     },
-    productAllergens: {
+    productAllergens: [{
         type: String, 
         required: true,
         minlength: 2
-    },
+    }],
     productPrice: {
         type: Number, 
         required: true,
